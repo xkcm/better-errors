@@ -1,13 +1,12 @@
 import BetterError from "../BetterError.class";
-import { defineMetadata } from "../metadata.util";
+import { defineMetadata } from "../metadata.utils";
+import { SupportedMetadata } from "../types";
 
-import type {
-  Constructor,
-  SupportedCode,
-} from "../types";
-
-export default function withCode<DefaultCode extends SupportedCode>(defaultCode: DefaultCode) {
-  return (target: Constructor<BetterError<DefaultCode>>) => {
+export default function withCode(defaultCode: string) {
+  return <
+    M extends SupportedMetadata,
+    TargetError extends typeof BetterError<M>,
+  >(target: TargetError) => {
     defineMetadata("defaults:code", defaultCode, target.prototype);
   };
 }
