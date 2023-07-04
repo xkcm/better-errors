@@ -5,7 +5,7 @@ import BetterError, {
   withCode,
   withMessage,
   withMetadata,
-} from "../src/main";
+} from "../src";
 
 export const DEFAULT_METADATA = {
   testValue: "test",

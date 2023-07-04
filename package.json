@@ -1,15 +1,26 @@
 {
-  "name": "better-errors",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "@xkcm/better-errors",
+  "version": "0.1.0",
+  "description": "Better errors with TypeScript",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib/**/*"
+  ],
   "scripts": {
     "test": "vitest",
     "lint": "eslint src/**/* tests/**/* --ext .ts",
     "build": "rm -rf ./lib && tsc -p tsconfig.build.json"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "error",
+    "handling",
+    "typescript",
+    "javascript",
+    "ts",
+    "js"
+  ],
+  "author": "xkcm",
   "license": "ISC",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.61.0",

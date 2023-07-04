@@ -6,7 +6,8 @@
     "lib": ["ESNext"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "types": ["reflect-metadata"]
+    "types": ["reflect-metadata"],
+    "declaration": true
   },
   "include": [
     "src/**/*",
