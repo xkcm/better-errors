@@ -23,4 +23,8 @@ export class ErrorWithDefaultMetadata extends BetterError<
 export class ErrorWithDefaultCode extends BetterError<string> {}
 
 @withMessage(DEFAULT_MESSAGE)
-export class ErrorWithDefaultMessage extends BetterError {}
+export class ErrorWithDefaultMessage extends BetterError<string, typeof DEFAULT_METADATA> {}
+
+@withMetadata(DEFAULT_METADATA)
+@withCode(DEFAULT_CODE)
+export class ErrorWithMixedDefaults extends ErrorWithDefaultMessage {}

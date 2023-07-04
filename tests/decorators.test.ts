@@ -11,6 +11,7 @@ import {
   ErrorWithDefaultCode,
   ErrorWithDefaultMessage,
   ErrorWithDefaultMetadata,
+  ErrorWithMixedDefaults,
 } from "./example-errors";
 
 describe("Decorators", () => {
@@ -27,5 +28,13 @@ describe("Decorators", () => {
   it("should use default message", () => {
     const errorWithMessage = new ErrorWithDefaultMessage();
     expect(errorWithMessage.message).toEqual(DEFAULT_MESSAGE);
+  });
+
+  it("should work with mixed defaults", () => {
+    const errorWithMixedDefaults = new ErrorWithMixedDefaults();
+
+    expect(errorWithMixedDefaults.metadata).toStrictEqual(DEFAULT_METADATA);
+    expect(errorWithMixedDefaults.message).toEqual(DEFAULT_MESSAGE);
+    expect(errorWithMixedDefaults.code).toEqual(DEFAULT_CODE);
   });
 });

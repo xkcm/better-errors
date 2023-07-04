@@ -6,4 +6,4 @@ export {
   BetterErrorSupportedMetadata,
   BetterErrorSupportedCode,
   BetterErrorOptions,
-} from "./types.d"
+} from "./types.d";
