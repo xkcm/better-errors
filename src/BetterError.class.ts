@@ -8,10 +8,13 @@ import type {
 export default class BetterError<
   Metadata extends SupportedMetadata = SupportedMetadata,
 > extends Error {
-  public static withMetadata<ErrorClass extends BetterError>(
+  public static withMetadata<
+    ErrorClass extends BetterError,
+    ErrorClassMetadata extends InferMetadata<ErrorClass> = InferMetadata<ErrorClass>,
+  >(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this: new (...args: any[]) => ErrorClass,
-    metadata: InferMetadata<ErrorClass>,
+    this: typeof BetterError<ErrorClassMetadata> & { new (...args: any[]): ErrorClass },
+    metadata: ErrorClassMetadata,
   ) {
     defineMetadata("defaults:metadata", metadata, this.prototype);
     return this;
