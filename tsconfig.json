@@ -1,15 +1,12 @@
 {
+  "extends": [
+    "./tsconfig.build.json"
+  ],
   "compilerOptions": {
-    "target": "ES6",
-    "outDir": "./lib",
-    "strict": true,
-    "lib": ["ESNext", "DOM"],
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "types": ["reflect-metadata"]
+    "moduleResolution": "NodeNext"
   },
   "include": [
-    "src/*",
-    "test/*"
+    "src/**/*",
+    "tests/**/*"
   ]
 }

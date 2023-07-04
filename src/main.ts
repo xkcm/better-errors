@@ -1,7 +1,9 @@
 import "reflect-metadata";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Constructor<K> = new (...args: any[]) => K;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type SupportedMetadata = Record<string, any>;
 type SupportedCode = string | number;
 
@@ -25,7 +27,7 @@ export default class BetterError<
     options?: BetterErrorOptions<Code, Metadata>,
   ) {
     super();
-    
+
     this.metadata = Reflect.getMetadata("defaults:metadata", this);
     this.code = Reflect.getMetadata("defaults:code", this);
     this.message = message ?? Reflect.getMetadata("defaults:message", this);
@@ -33,33 +35,34 @@ export default class BetterError<
   }
 }
 
-export function withMetadata<DefaultMetadata extends SupportedMetadata>(defaultMetadataObject: DefaultMetadata) {
-  return function (target: Constructor<BetterError<SupportedCode, DefaultMetadata>>) {
+export function withMetadata<
+  DefaultMetadata extends SupportedMetadata,
+>(defaultMetadataObject: DefaultMetadata) {
+  return (target: Constructor<BetterError<SupportedCode, DefaultMetadata>>) => {
     Reflect.defineMetadata(
       "defaults:metadata",
       defaultMetadataObject,
       target.prototype,
     );
-  }
+  };
 }
 
 export function withCode<DefaultCode extends SupportedCode>(defaultCode: DefaultCode) {
-  return function (target: Constructor<BetterError<DefaultCode, SupportedMetadata>>) {
+  return (target: Constructor<BetterError<DefaultCode, SupportedMetadata>>) => {
     Reflect.defineMetadata(
       "defaults:code",
       defaultCode,
       target.prototype,
     );
-  }
+  };
 }
 
 export function withMessage(defaultMessage: string) {
-  return function (target: Constructor<BetterError>) {
+  return (target: Constructor<BetterError>) => {
     Reflect.defineMetadata(
       "defaults:message",
       defaultMessage,
       target.prototype,
     );
-  }
+  };
 }
-
