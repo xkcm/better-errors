@@ -2,9 +2,14 @@
   "compilerOptions": {
     "target": "ES6",
     "outDir": "./lib",
-    "strict": true
+    "strict": true,
+    "lib": ["ESNext", "DOM"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "types": ["reflect-metadata"]
   },
   "include": [
-    "src/*"
+    "src/*",
+    "test/*"
   ]
 }
