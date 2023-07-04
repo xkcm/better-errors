@@ -1,7 +1,7 @@
 import { defineMetadata, getMetadata } from "./metadata.utils";
 import type {
-  BetterErrorOptions,
-  InferBetterErrorMetadata,
+  Options,
+  InferMetadata,
   SupportedMetadata,
 } from "./types";
 
@@ -11,7 +11,7 @@ export default class BetterError<
   public static withMetadata<ErrorClass extends BetterError>(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this: new (...args: any[]) => ErrorClass,
-    metadata: InferBetterErrorMetadata<ErrorClass>,
+    metadata: InferMetadata<ErrorClass>,
   ) {
     defineMetadata("defaults:metadata", metadata, this.prototype);
     return this;
@@ -32,14 +32,13 @@ export default class BetterError<
   public readonly metadata: Metadata;
 
   public constructor(
-    message?: string,
-    options?: BetterErrorOptions<Metadata>,
+    options?: Options<Metadata>,
   ) {
     super();
 
-    this.metadata = getMetadata("defaults:metadata", this);
-    this.code = getMetadata("defaults:code", this);
-    this.message = message ?? getMetadata("defaults:message", this);
+    this.metadata = options?.metadata ?? getMetadata("defaults:metadata", this);
+    this.code = options?.code ?? getMetadata("defaults:code", this);
+    this.message = options?.message ?? getMetadata("defaults:message", this);
     this.cause = options?.cause;
   }
 }

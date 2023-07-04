@@ -1,6 +1,7 @@
 import BetterError from "../BetterError.class";
 import { defineMetadata } from "../metadata.utils";
-import { SupportedMetadata } from "../types";
+
+import type { SupportedMetadata } from "../types";
 
 export default function withCode(defaultCode: string) {
   return <
