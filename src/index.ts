@@ -1,9 +1,9 @@
-export { default as BetterError } from "./BetterError.class";
+import BetterError from "./BetterError.class";
 
+export default BetterError;
 export * from "./decorators";
-
 export {
   BetterErrorSupportedMetadata,
   BetterErrorSupportedCode,
   BetterErrorOptions,
-} from "./types"
+} from "./types.d"
