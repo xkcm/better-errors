@@ -1,15 +1,40 @@
 {
-  "name": "better-errors",
+  "name": "@xkcm/better-errors",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Better errors with TypeScript",
+  "main": "lib/es5/index.js",
+  "module": "lib/es6/index.js",
+  "types": "lib/es6/index.d.ts",
+  "files": [
+    "lib/**/*",
+    "README.md"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest",
+    "lint": "eslint src/**/* tests/**/* --ext .ts",
+    "build": "rm -rf ./lib && tsc -p tsconfig.build.json && tsc -p tsconfig.build.es5.json && cp ./src/types.d.ts ./lib/es5/ && cp ./src/types.d.ts ./lib/es6/"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "error",
+    "handling",
+    "typescript",
+    "javascript",
+    "ts",
+    "js"
+  ],
+  "author": "xkcm",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^5.1.6"
+    "@typescript-eslint/eslint-plugin": "^5.61.0",
+    "@typescript-eslint/parser": "^5.61.0",
+    "eslint": "^8.44.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "typescript": "^5.1.6",
+    "vitest": "^0.32.4"
+  },
+  "dependencies": {
+    "reflect-metadata": "^0.1.13"
   }
 }

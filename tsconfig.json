@@ -1,10 +1,6 @@
 {
-  "compilerOptions": {
-    "target": "ES6",
-    "outDir": "./lib",
-    "strict": true
-  },
+  "extends": "./tsconfig.build.json",
   "include": [
-    "src/*"
+    "tests/**/*"
   ]
 }
