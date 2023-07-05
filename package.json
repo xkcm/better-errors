@@ -6,7 +6,8 @@
   "module": "lib/es6/index.js",
   "types": "lib/es6/index.d.ts",
   "files": [
-    "lib/**/*"
+    "lib/**/*",
+    "README.md"
   ],
   "scripts": {
     "test": "vitest",
