@@ -1,5 +1,5 @@
-import BetterError from "../BetterError.class";
-import { defineMetadata } from "../metadata.utils";
+import BetterError from "../core/BetterError.class";
+import { defineMetadata } from "../utils/metadata.utils";
 
 import type { SupportedMetadata } from "../types";
 

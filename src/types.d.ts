@@ -1,4 +1,4 @@
-import BetterError from "./BetterError.class";
+import BetterError from "./core/BetterError.class";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type SupportedMetadata = Record<string, any>;

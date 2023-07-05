@@ -1,9 +1,11 @@
-import { defineMetadata, getMetadata } from "./metadata.utils";
+import { defineMetadata, getMetadata } from "../utils/metadata.utils";
+import { cloneClass } from "../utils/clone.util";
+
 import type {
   Options,
   InferMetadata,
   SupportedMetadata,
-} from "./types";
+} from "../types";
 
 export default class BetterError<
   Metadata extends SupportedMetadata = SupportedMetadata,
@@ -16,18 +18,21 @@ export default class BetterError<
     this: typeof BetterError<ErrorClassMetadata> & { new (...args: any[]): ErrorClass },
     metadata: ErrorClassMetadata,
   ) {
-    defineMetadata("defaults:metadata", metadata, this.prototype);
-    return this;
+    const newClass = cloneClass(this);
+    defineMetadata("defaults:metadata", metadata, newClass.prototype);
+    return newClass;
   }
 
   public static withMessage(message: string) {
-    defineMetadata("defaults:message", message, this.prototype);
-    return this;
+    const newClass = cloneClass(this);
+    defineMetadata("defaults:message", message, newClass.prototype);
+    return newClass;
   }
 
   public static withCode(code: string) {
-    defineMetadata("defaults:code", code, this.prototype);
-    return this;
+    const newClass = cloneClass(this);
+    defineMetadata("defaults:code", code, newClass.prototype);
+    return newClass;
   }
 
   public readonly code: string;
