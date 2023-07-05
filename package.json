@@ -1,16 +1,18 @@
 {
   "name": "@xkcm/better-errors",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Better errors with TypeScript",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "lib/es5/index.js",
+  "module": "lib/es6/index.js",
+  "types": "lib/es6/index.d.ts",
   "files": [
-    "lib/**/*"
+    "lib/**/*",
+    "README.md"
   ],
   "scripts": {
     "test": "vitest",
     "lint": "eslint src/**/* tests/**/* --ext .ts",
-    "build": "rm -rf ./lib && tsc -p tsconfig.build.json"
+    "build": "rm -rf ./lib && tsc -p tsconfig.build.json && tsc -p tsconfig.build.es5.json && cp ./src/types.d.ts ./lib/es5/ && cp ./src/types.d.ts ./lib/es6/"
   },
   "keywords": [
     "error",

@@ -1,11 +1,12 @@
-import BetterError from "./BetterError.class";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import BetterError from "./core/BetterError.class";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type SupportedMetadata = Record<string, any>;
-export interface Options<Metadata> extends ErrorOptions {
-  code?: string,
-  message?: string,
-  metadata?: Metadata,
+export interface Options<Metadata> {
+  cause?: any;
+  code?: string;
+  message?: string;
+  metadata?: Metadata;
 }
 
 export type InferMetadata<ErrClass> = (

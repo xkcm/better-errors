@@ -1,4 +1,4 @@
-import BetterError from "./BetterError.class";
+import BetterError from "./core/BetterError.class";
 
 export default BetterError;
 export * from "./decorators";
