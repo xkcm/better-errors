@@ -3,7 +3,7 @@ export function cloneClass<C extends { new (...args: any[]): any }>(OriginalClas
   class ClonedClass extends OriginalClass {}
 
   Reflect.defineProperty(ClonedClass, "name", {
-    value: OriginalClass.name,
+    value: Reflect.get(OriginalClass, "name"),
   });
 
   return ClonedClass;
