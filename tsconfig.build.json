@@ -1,14 +1,16 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "ESNext",
     "outDir": "./lib",
     "strict": true,
     "lib": ["ESNext"],
+    "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "types": ["reflect-metadata"],
-    "declaration": true
+    "declaration": true,
+    "sourceMap": true
   },
   "include": [
     "src/**/*",

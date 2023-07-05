@@ -10,7 +10,7 @@
   "scripts": {
     "test": "vitest",
     "lint": "eslint src/**/* tests/**/* --ext .ts",
-    "build": "rm -rf ./lib && tsc -p tsconfig.build.json"
+    "build": "rm -rf ./lib && tsc -p tsconfig.build.json && cp ./src/types.d.ts ./lib/"
   },
   "keywords": [
     "error",
