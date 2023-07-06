@@ -10,7 +10,8 @@
     "emitDecoratorMetadata": true,
     "declaration": true,
     "sourceMap": true,
-    "types": ["reflect-metadata"]
+    "types": ["reflect-metadata"],
+    "rootDir": "./"
   },
   "include": [
     "src/**/*",

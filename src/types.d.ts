@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import BetterError from "./core/BetterError.class";
 
 export type SupportedMetadata = Record<string, any>;
@@ -14,3 +13,5 @@ export type InferMetadata<ErrClass> = (
     ErrClass extends BetterError<infer M> ? M : SupportedMetadata
   ) : never
 );
+
+export type Getter<T> = T | (() => T);

@@ -11,8 +11,8 @@
   ],
   "scripts": {
     "test": "vitest",
-    "lint": "eslint src/**/* tests/**/* --ext .ts",
-    "build": "rm -rf ./lib && tsc -p tsconfig.build.json && tsc -p tsconfig.build.es5.json && cp ./src/types.d.ts ./lib/es5/ && cp ./src/types.d.ts ./lib/es6/"
+    "lint": "eslint ./src ./tests --ext .ts",
+    "build": "rm -rf ./lib && tsc -p tsconfig.build.es6.json && tsc -p tsconfig.build.es5.json && cp ./src/types.d.ts ./lib/es5/ && cp ./src/types.d.ts ./lib/es6/"
   },
   "keywords": [
     "error",
