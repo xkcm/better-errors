@@ -6,6 +6,7 @@ import * as objectUtils from "../utils/object.utils";
 import type {
   Getter,
   InferMetadata,
+  MergingBehavior,
   Options,
   SupportedMetadata,
 } from "../types";
@@ -19,9 +20,11 @@ export default class BetterError<
   >(
     this: typeof BetterError<ErrorClassMetadata> & { new (...args: any[]): ErrorClass },
     metadata: Getter<ErrorClassMetadata>,
+    mergingBehavior: MergingBehavior = "submissive",
   ) {
     const newClass = cloneClass(this);
     defineMetadata("defaults:metadata", metadata, newClass.prototype);
+    defineMetadata("defaults:metadata", mergingBehavior, newClass.prototype, "mergingBehavior");
     return newClass;
   }
 
@@ -37,18 +40,16 @@ export default class BetterError<
     return newClass;
   }
 
-  public readonly code: string;
+  public code: string;
 
-  public readonly metadata: Metadata;
+  public metadata: Metadata;
 
   public constructor(
     options?: Options<Metadata>,
   ) {
     super();
 
-    this.metadata = options?.metadata ?? resolveGetter(
-      getMetadata<Getter<Metadata>>("defaults:metadata", this),
-    );
+    this.metadata = this.resolveMetadata(options?.metadata);
     this.code = options?.code ?? resolveGetter(
       getMetadata<Getter<string>>("defaults:code", this),
     );
@@ -58,6 +59,23 @@ export default class BetterError<
     this.cause = options?.cause;
 
     this.parseMessageTemplate();
+  }
+
+  private resolveMetadata(constructorMetadata?: Metadata): Metadata {
+    const defaultMetadata = resolveGetter(getMetadata<Getter<Metadata>>("defaults:metadata", this));
+    const mergingBehavior = getMetadata<MergingBehavior>("defaults:metadata", this, "mergingBehavior");
+
+    switch (mergingBehavior) {
+      case "firm":
+        return defaultMetadata ?? constructorMetadata;
+      case "compromise:firm":
+        return objectUtils.mergeRecursively(constructorMetadata ?? {}, defaultMetadata);
+      case "compromise:submissive":
+        return objectUtils.mergeRecursively(defaultMetadata, constructorMetadata ?? {});
+      case "submissive":
+      default:
+        return constructorMetadata ?? defaultMetadata;
+    }
   }
 
   private parseMessageTemplate() {

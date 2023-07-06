@@ -17,6 +17,7 @@ module.exports = {
   rules: {
     quotes: ["error", "double"],
     curly: ["error", "all"],
+    indent: "off",
     "no-console": ["error", { allow: ["info", "warn", "error"] }],
     "no-use-before-define": ["error", { functions: false, classes: false }],
     "brace-style": ["error", "1tbs", { allowSingleLine: false }],
@@ -25,7 +26,8 @@ module.exports = {
     "@typescript-eslint/quotes": 0,
     "@typescript-eslint/no-explicit-any": 0,
     "@typescript-eslint/indent": ["error", 2, {
-      ignoredNodes: ["TSTypeParameterInstantiation"]
+      ignoredNodes: ["TSTypeParameterInstantiation"],
+      SwitchCase: 1,
     }]
   },
   ignorePatterns: [".eslintrc.js"]

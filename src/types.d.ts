@@ -14,4 +14,6 @@ export type InferMetadata<ErrClass> = (
   ) : never
 );
 
+export type MergingBehavior = "firm" | "submissive" | "compromise:firm" | "compromise:submissive";
+
 export type Getter<T> = T | (() => T);
