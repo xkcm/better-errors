@@ -5,6 +5,20 @@ A library for expanded error functionality in JavaScript.
 
 Better Errors library provides a `BetterError` class extended from the standard `Error` class. It expands the standard error with **code** and **metadata** properties. The library also contains a couple of utility functions & decorators to define default values to minimize repeated code.
 
+## Installation
+
+You can install the package from NPM registry
+```sh
+# pnpm
+pnpm add @xkcm/better-errors
+
+# yarn
+yarn add @xkcm/better-errors
+
+# npm
+npm add @xkcm/better-errors
+```
+
 ## Usage examples
 
 This example contains a simple error class extending from `BetterError` class with a default error code.
@@ -24,7 +38,7 @@ For details on `BetterError` constructor see the [Reference](#reference) section
 
 ---
 
-This example contains setting default value with error's class static method.
+This example contains setting default value using a static method from the error class.
 
 ```ts
 class NotFoundError extends BetterError {}
@@ -38,7 +52,7 @@ throw new NotFoundErrorWithMessage();
 
 ---
 
-This example contains a scenario in which an error with default values and some user data as metadata is thrown.
+This example contains a scenario in which an error with default values and some user data is thrown.
 
 ```ts
 @withCode("auth.user_does_not_exist")
@@ -53,7 +67,6 @@ async function findUser(userId: string) {
   if (!userExists) {
     throw new UserDoesNotExistError({ metadata: { userId } });
                                       // ^ type-safe
-
     // throws:
     // UserDoesNotExist: User does not exist!
     // {
@@ -65,6 +78,40 @@ async function findUser(userId: string) {
 ```
 
 For details on type-safety and decorators see the [Reference](#reference) section.
+
+---
+
+Advanced example with a message template and a getter function for metadata.
+```ts
+@withMetadata(() => ({
+  timestamp: new Date()
+}))
+@withMessage("Server error (occurred at %{metadata.timestamp})")
+class ServerError extends BetterError<{ timestamp: number }> {}
+```
+
+## Message template
+
+You can use templates for the error messages. To inject a value to the message use `%{}` symbol.
+
+Example:
+```ts
+throw new BetterError({
+  metadata: { userId: 42 },
+  code: "user_does_not_exist",
+  message: "User with id=%{metadata.userId} does not exist (E_CODE=%{code})"
+});
+
+// throws:
+// BetterError: User with id=42 does not exist (E_CODE=user_does_not_exist)
+// {
+//   metadata: { userId: 42 },
+//   code: "user_does_not_exist"
+// }
+
+```
+
+Message template has access to `metadata`, `cause` & `code` properties.
 
 ## Reference
 
@@ -86,6 +133,19 @@ For details on type-safety and decorators see the [Reference](#reference) sectio
 ```ts
 @withMetadata(/* TypeScript enforces type A here */)
 class ErrorWithMetadata extends BetterError<A> {}
+```
+
+### Decorators and static methods
+
+Decorators and static methods accept both direct values and getter functions which are evaluated on error construction.
+
+Example usage of getter function for metadata:
+
+```ts
+@withMetadata(() => ({
+  timestamp: Date.now(),
+}))
+class ErrorWithTimestamp extends BetterError<{ timestamp: number }> {}
 ```
 
 #### `withMessage`
