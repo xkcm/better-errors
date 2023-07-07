@@ -13,7 +13,7 @@ export default function withMetadata<
   mergingBehavior: MergingBehavior = "submissive",
 ) {
   return (
-    target: typeof BetterError<ErrorClassMetadata> & { new (...args: any[]): ErrorClass },
+    target: { new (...args: any[]): ErrorClass },
   ) => {
     defineMetadata("defaults:metadata", defaultMetadata, target.prototype);
     defineMetadata("defaults:metadata", mergingBehavior, target.prototype, "mergingBehavior");
