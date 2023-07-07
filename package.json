@@ -2,6 +2,14 @@
   "name": "@xkcm/better-errors",
   "version": "1.1.0",
   "description": "Better errors with TypeScript",
+  "author": "xkcm",
+  "license": "ISC",
+  "repository": {
+    "url": "https://github.com/xkcm/better-errors"
+  },
+  "bugs": {
+    "url": "https://github.com/xkcm/better-errors/issues"
+  },
   "main": "lib/es5/index.js",
   "module": "lib/es6/index.js",
   "types": "lib/es6/index.d.ts",
@@ -22,8 +30,6 @@
     "ts",
     "js"
   ],
-  "author": "xkcm",
-  "license": "ISC",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
