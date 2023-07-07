@@ -1,15 +1,15 @@
-import { cloneClass } from "../utils/clone.util";
+import { cloneClass } from "../utils/clone.utils";
 import { resolveGetter } from "../utils/getter.utils";
 import { defineMetadata, getMetadata } from "../utils/metadata.utils";
 import * as objectUtils from "../utils/object.utils";
 
 import type {
-  Getter,
   InferMetadata,
   MergingBehavior,
   Options,
   SupportedMetadata,
 } from "../types";
+import type { Getter } from "../utils/types.utils.ts";
 
 export default class BetterError<
   Metadata extends SupportedMetadata = SupportedMetadata,
