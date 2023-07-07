@@ -81,13 +81,27 @@ For details on type-safety and decorators see the [Reference](#reference) sectio
 
 ---
 
-Advanced example with a message template and a getter function for metadata.
+Advanced example with a message template, a getter function for metadata and a specified metadata merging behavior.
 ```ts
-@withMetadata(() => ({
-  timestamp: new Date()
-}))
-@withMessage("Server error (occurred at %{metadata.timestamp})")
-class ServerError extends BetterError<{ timestamp: number }> {}
+@withMessage("User with id=%{metadata.id} not found (occurred at %{metadata.timestamp})")
+@withMetadata(
+  () => ({
+    timestamp: new Date(),
+  }),
+  "compromise:firm",
+)
+class UserNotFoundError extends BetterError<{
+  timestamp: number;
+  userId?: number;
+}> {}
+
+throw new UserNotFoundError({ metadata: { userId: 42 } });
+// throws:
+// UserNotFoundError: User with id=42 not found (occurred at <timestamp>)
+// {
+//   userId: 42,
+//   timestamp: <timestamp>
+// }
 ```
 
 ## Message template
@@ -131,7 +145,7 @@ Message template has access to `metadata`, `cause` & `code` properties.
 `Metadata` type comes from the optional generic type. It must extend `Record<string, any>`. This way it's possible to set custom metadata interface and get full IDE autocomplete support.  This type is then used in `.withMetadata` static method and `@withMetadata` decorator.
 
 ```ts
-@withMetadata(/* TypeScript enforces type A here */)
+@withMetadata(metadata: A) // TypeScript enforces type A here
 class ErrorWithMetadata extends BetterError<A> {}
 ```
 
@@ -139,41 +153,55 @@ class ErrorWithMetadata extends BetterError<A> {}
 
 Decorators and static methods accept both direct values and getter functions which are evaluated on error construction.
 
-Example usage of getter function for metadata:
+Example usage of getter function for metadata and message:
 
 ```ts
 @withMetadata(() => ({
   timestamp: Date.now(),
 }))
+@withMessage(() => `Error with env=${process.env.ENVIRONMENT}`)
 class ErrorWithTimestamp extends BetterError<{ timestamp: number }> {}
 ```
 
 #### `withMessage`
 ```ts
 // As a decorator
-@withMessage(/* string */)
+@withMessage(message: string)
 class CustomError extends BetterError {}
 
 // As a static method
-CustomError.withMessage(/* string */)
+CustomError.withMessage(message: string)
 ```
 
 #### `withCode`
 ```ts
 // As a decorator
-@withCode(/* string */)
+@withCode(code: string)
 class CustomError extends BetterError {}
 
 // As a static method
-CustomError.withCode(/* string */)
+CustomError.withCode(code: string)
 ```
 
 #### `withMetadata`
 ```ts
 // As a decorator
-@withMetadata(/* Metadata type inferred from the error class */)
-class CustomError extends BetterError</* Metadata type here */> {}
+@withMetadata(metadata: Metadata)
+class CustomError extends BetterError<Metadata> {}
 
 // As a static method
-CustomError.withMetadata(/* Metadata type */)
+CustomError.withMetadata(
+  metadata: Metadata,
+  mergingBehavior: "firm" | "submissive" | "compromise:firm" | "compromise:submissive",
+)
 ```
+
+**Merging behavior**
+
+Default metadata (from decorator/static method) and metadata from constructor can be merged in 4 ways:
+* `firm` - default metadata takes precedence and the metadata from constructor is discarded
+* `submissive` - default metadata is discarded and the metadata from constructor takes precedence if present
+* `compromise:firm` - default metadata and the metadata from constructor are recursively merged, if a conflict of object keys occurs then the value from the default metadata takes precedence, arrays get concatenated and objects are merged recursively
+* `compromise:submissive` - default metadata and the metadata from constructor are recursively merged, if a conflict of object keys occurs then the value from the metadata from constructor takes precedence, arrays get concatenated and objects are merged recursively
+
+The default merging behavior is `submissive`.
