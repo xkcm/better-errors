@@ -9,8 +9,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "declaration": true,
-    "types": ["reflect-metadata"],
-    "rootDir": "./"
+    "types": ["reflect-metadata"]
   },
   "include": [
     "src/**/*",

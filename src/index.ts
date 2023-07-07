@@ -6,4 +6,4 @@ export {
   SupportedMetadata,
   Options,
   InferMetadata,
-} from "./types.d";
+} from "./types";

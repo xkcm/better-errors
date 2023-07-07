@@ -1,16 +1,21 @@
 import BetterError from "../core/BetterError.class";
 import { defineMetadata } from "../utils/metadata.utils";
 
-import type { Getter, MergingBehavior, SupportedMetadata } from "../types";
+import type { InferMetadata, MergingBehavior } from "../types";
+import type { Getter } from "../utils/types.utils.ts";
 
 export default function withMetadata<
-  DefaultMetadata extends SupportedMetadata,
+  ErrorClass extends BetterError,
+  ErrorClassMetadata extends InferMetadata<ErrorClass>,
+  T extends ErrorClassMetadata,
 >(
-  defaultMetadataObject: Getter<DefaultMetadata>,
+  defaultMetadata: Getter<T>,
   mergingBehavior: MergingBehavior = "submissive",
 ) {
-  return (target: typeof BetterError<DefaultMetadata>) => {
-    defineMetadata("defaults:metadata", defaultMetadataObject, target.prototype);
+  return (
+    target: typeof BetterError<ErrorClassMetadata> & { new (...args: any[]): ErrorClass },
+  ) => {
+    defineMetadata("defaults:metadata", defaultMetadata, target.prototype);
     defineMetadata("defaults:metadata", mergingBehavior, target.prototype, "mergingBehavior");
   };
 }

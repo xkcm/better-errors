@@ -1,7 +1,8 @@
 import BetterError from "../core/BetterError.class";
 import { defineMetadata } from "../utils/metadata.utils";
 
-import type { Getter, SupportedMetadata } from "../types";
+import type { SupportedMetadata } from "../types";
+import type { Getter } from "../utils/types.utils.ts";
 
 export default function withCode(defaultCode: Getter<string>) {
   return <
