@@ -83,7 +83,7 @@ export default class BetterError<
       /%\{(.+?)\}/g,
       (placeholder: string) => {
         const dataPath = placeholder.slice(2, -1);
-        const targetObject = objectUtils.pick(this, ["code", "metadata"]);
+        const targetObject = objectUtils.pick(this, ["code", "metadata", "cause"]);
 
         const value = objectUtils.get(targetObject, dataPath);
         return String(value);
