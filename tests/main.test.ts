@@ -46,4 +46,21 @@ describe("Main functionality", () => {
       }),
     );
   });
+
+  it("should use metadata getter, merge and parse message template", () => {
+    const timestamp = new Date();
+    const metadata = { userId: 42 };
+
+    const templateMessage = "User with id=%{metadata.userId} not found (occurred at %{metadata.timestamp})";
+    const expectedMessage = `User with id=${metadata.userId} not found (occurred at ${timestamp})`;
+
+    const ErrorWithDefaults = BetterError
+      .withMetadata(() => ({ timestamp }), "compromise:firm")
+      .withMessage(templateMessage);
+
+    const error = new ErrorWithDefaults({ metadata });
+
+    expect(error.metadata).toStrictEqual({ timestamp, userId: metadata.userId });
+    expect(error.message).toStrictEqual(expectedMessage);
+  });
 });

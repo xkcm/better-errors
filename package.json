@@ -1,7 +1,15 @@
 {
   "name": "@xkcm/better-errors",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Better errors with TypeScript",
+  "author": "xkcm",
+  "license": "ISC",
+  "repository": {
+    "url": "https://github.com/xkcm/better-errors"
+  },
+  "bugs": {
+    "url": "https://github.com/xkcm/better-errors/issues"
+  },
   "main": "lib/es5/index.js",
   "module": "lib/es6/index.js",
   "types": "lib/es6/index.d.ts",
@@ -11,8 +19,8 @@
   ],
   "scripts": {
     "test": "vitest",
-    "lint": "eslint src/**/* tests/**/* --ext .ts",
-    "build": "rm -rf ./lib && tsc -p tsconfig.build.json && tsc -p tsconfig.build.es5.json && cp ./src/types.d.ts ./lib/es5/ && cp ./src/types.d.ts ./lib/es6/"
+    "lint": "eslint ./src ./tests --ext .ts",
+    "build": "rm -rf ./lib && tsc -p tsconfig.build.es6.json && tsc -p tsconfig.build.es5.json && cp ./src/types.d.ts ./lib/es5/ && cp ./src/types.d.ts ./lib/es6/"
   },
   "keywords": [
     "error",
@@ -22,8 +30,6 @@
     "ts",
     "js"
   ],
-  "author": "xkcm",
-  "license": "ISC",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",

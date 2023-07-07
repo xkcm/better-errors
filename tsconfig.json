@@ -1,6 +1,7 @@
 {
-  "extends": "./tsconfig.build.json",
+  "extends": "./tsconfig.build.es6.json",
   "include": [
-    "tests/**/*"
+    "src/**/*",
+    "tests/**/*",
   ]
 }

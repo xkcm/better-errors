@@ -5,6 +5,20 @@ A library for expanded error functionality in JavaScript.
 
 Better Errors library provides a `BetterError` class extended from the standard `Error` class. It expands the standard error with **code** and **metadata** properties. The library also contains a couple of utility functions & decorators to define default values to minimize repeated code.
 
+## Installation
+
+You can install the package from NPM registry
+```sh
+# pnpm
+pnpm add @xkcm/better-errors
+
+# yarn
+yarn add @xkcm/better-errors
+
+# npm
+npm add @xkcm/better-errors
+```
+
 ## Usage examples
 
 This example contains a simple error class extending from `BetterError` class with a default error code.
@@ -24,7 +38,7 @@ For details on `BetterError` constructor see the [Reference](#reference) section
 
 ---
 
-This example contains setting default value with error's class static method.
+This example contains setting default value using a static method from the error class.
 
 ```ts
 class NotFoundError extends BetterError {}
@@ -38,7 +52,7 @@ throw new NotFoundErrorWithMessage();
 
 ---
 
-This example contains a scenario in which an error with default values and some user data as metadata is thrown.
+This example contains a scenario in which an error with default values and some user data is thrown.
 
 ```ts
 @withCode("auth.user_does_not_exist")
@@ -53,7 +67,6 @@ async function findUser(userId: string) {
   if (!userExists) {
     throw new UserDoesNotExistError({ metadata: { userId } });
                                       // ^ type-safe
-
     // throws:
     // UserDoesNotExist: User does not exist!
     // {
@@ -65,6 +78,54 @@ async function findUser(userId: string) {
 ```
 
 For details on type-safety and decorators see the [Reference](#reference) section.
+
+---
+
+Advanced example with a message template, a getter function for metadata and a specified metadata merging behavior.
+```ts
+@withMessage("User with id=%{metadata.id} not found (occurred at %{metadata.timestamp})")
+@withMetadata(
+  () => ({
+    timestamp: new Date(),
+  }),
+  "compromise:firm",
+)
+class UserNotFoundError extends BetterError<{
+  timestamp: number;
+  userId?: number;
+}> {}
+
+throw new UserNotFoundError({ metadata: { userId: 42 } });
+// throws:
+// UserNotFoundError: User with id=42 not found (occurred at <timestamp>)
+// {
+//   userId: 42,
+//   timestamp: <timestamp>
+// }
+```
+
+## Message template
+
+You can use templates for the error messages. To inject a value to the message use `%{}` symbol.
+
+Example:
+```ts
+throw new BetterError({
+  metadata: { userId: 42 },
+  code: "user_does_not_exist",
+  message: "User with id=%{metadata.userId} does not exist (E_CODE=%{code})"
+});
+
+// throws:
+// BetterError: User with id=42 does not exist (E_CODE=user_does_not_exist)
+// {
+//   metadata: { userId: 42 },
+//   code: "user_does_not_exist"
+// }
+
+```
+
+Message template has access to `metadata`, `cause` & `code` properties.
 
 ## Reference
 
@@ -84,36 +145,63 @@ For details on type-safety and decorators see the [Reference](#reference) sectio
 `Metadata` type comes from the optional generic type. It must extend `Record<string, any>`. This way it's possible to set custom metadata interface and get full IDE autocomplete support.  This type is then used in `.withMetadata` static method and `@withMetadata` decorator.
 
 ```ts
-@withMetadata(/* TypeScript enforces type A here */)
+@withMetadata(metadata: A) // TypeScript enforces type A here
 class ErrorWithMetadata extends BetterError<A> {}
+```
+
+### Decorators and static methods
+
+Decorators and static methods accept both direct values and getter functions which are evaluated on error construction.
+
+Example usage of getter function for metadata and message:
+
+```ts
+@withMetadata(() => ({
+  timestamp: Date.now(),
+}))
+@withMessage(() => `Error with env=${process.env.ENVIRONMENT}`)
+class ErrorWithTimestamp extends BetterError<{ timestamp: number }> {}
 ```
 
 #### `withMessage`
 ```ts
 // As a decorator
-@withMessage(/* string */)
+@withMessage(message: string)
 class CustomError extends BetterError {}
 
 // As a static method
-CustomError.withMessage(/* string */)
+CustomError.withMessage(message: string)
 ```
 
 #### `withCode`
 ```ts
 // As a decorator
-@withCode(/* string */)
+@withCode(code: string)
 class CustomError extends BetterError {}
 
 // As a static method
-CustomError.withCode(/* string */)
+CustomError.withCode(code: string)
 ```
 
 #### `withMetadata`
 ```ts
 // As a decorator
-@withMetadata(/* Metadata type inferred from the error class */)
-class CustomError extends BetterError</* Metadata type here */> {}
+@withMetadata(metadata: Metadata)
+class CustomError extends BetterError<Metadata> {}
 
 // As a static method
-CustomError.withMetadata(/* Metadata type */)
+CustomError.withMetadata(
+  metadata: Metadata,
+  mergingBehavior: "firm" | "submissive" | "compromise:firm" | "compromise:submissive",
+)
 ```
+
+**Merging behavior**
+
+Default metadata (from decorator/static method) and metadata from constructor can be merged in 4 ways:
+* `firm` - default metadata takes precedence and the metadata from constructor is discarded
+* `submissive` - default metadata is discarded and the metadata from constructor takes precedence if present
+* `compromise:firm` - default metadata and the metadata from constructor are recursively merged, if a conflict of object keys occurs then the value from the default metadata takes precedence, arrays get concatenated and objects are merged recursively
+* `compromise:submissive` - default metadata and the metadata from constructor are recursively merged, if a conflict of object keys occurs then the value from the metadata from constructor takes precedence, arrays get concatenated and objects are merged recursively
+
+The default merging behavior is `submissive`.
