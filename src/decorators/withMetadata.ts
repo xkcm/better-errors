@@ -1,4 +1,4 @@
-import BetterError from "../core/BetterError.class";
+import type { BetterError } from "../core/BetterError.class";
 import { defineMetadata } from "../utils/metadata.utils";
 
 import type { InferMetadata, MergingBehavior } from "../types";

@@ -12,7 +12,7 @@
   },
   "main": "lib/es5/index.js",
   "module": "lib/es6/index.js",
-  "types": "lib/es5/index.d.ts",
+  "types": "lib/es6/index.d.ts",
   "files": [
     "lib/**/*",
     "README.md"

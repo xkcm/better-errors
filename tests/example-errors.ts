@@ -1,6 +1,7 @@
 /* eslint-disable max-classes-per-file */
 
-import BetterError, {
+import {
+  BetterError,
   withCode,
   withMessage,
   withMetadata,

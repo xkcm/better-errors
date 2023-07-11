@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import BetterError from "../src";
+import { BetterError } from "../src";
 
 describe("Message template usage", () => {
   it("should use code in the message", () => {

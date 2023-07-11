@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { ErrorWithDefaultCode, ErrorWithDefaultMessage, ErrorWithDefaultMetadata } from "./example-errors";
-import BetterError from "../src";
+import { BetterError } from "../src";
 
 describe("Overriding defaults from decorators", () => {
   describe("Overriding with constructor", () => {

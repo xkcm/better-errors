@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import BetterError from "../src";
+import { BetterError } from "../src";
 
 describe("Getters", () => {
   it("should use getter message", () => {
