@@ -1,6 +1,5 @@
 import { cloneClass } from "../utils/clone.utils";
 import { resolveGetter } from "../utils/getter.utils";
-import { getMetadata } from "../utils/metadata.utils";
 import * as objectUtils from "../utils/object.utils";
 
 import { withCode, withMessage, withMetadata } from "../decorators";
@@ -52,10 +51,10 @@ export class BetterError<
 
     this.metadata = this.resolveMetadata(options?.metadata);
     this.code = options?.code ?? resolveGetter(
-      getMetadata<Getter<string>>("defaults:code", this),
+      Reflect.getMetadata("defaults:code", this) as Getter<string>,
     );
     this.message = options?.message ?? resolveGetter(
-      getMetadata<Getter<string>>("defaults:message", this),
+      Reflect.getMetadata("defaults:message", this) as Getter<string>,
     );
     this.cause = options?.cause;
 
@@ -63,8 +62,8 @@ export class BetterError<
   }
 
   private resolveMetadata(constructorMetadata?: Metadata): Metadata {
-    const defaultMetadata = resolveGetter(getMetadata<Getter<Metadata>>("defaults:metadata", this));
-    const mergingBehavior = getMetadata<MergingBehavior>("defaults:metadata", this, "mergingBehavior");
+    const defaultMetadata = resolveGetter(Reflect.getMetadata("defaults:metadata", this) as Getter<Metadata>);
+    const mergingBehavior = Reflect.getMetadata("defaults:metadata", this, "mergingBehavior") as MergingBehavior;
 
     switch (mergingBehavior) {
       case "firm":
