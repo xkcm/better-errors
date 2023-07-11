@@ -1,6 +1,6 @@
 {
   "name": "@xkcm/better-errors",
-  "version": "1.1.3",
+  "version": "2.0.0",
   "description": "Better errors with TypeScript",
   "author": "xkcm",
   "license": "ISC",
@@ -12,7 +12,7 @@
   },
   "main": "lib/es5/index.js",
   "module": "lib/es6/index.js",
-  "types": "lib/es5/index.d.ts",
+  "types": "lib/es6/index.d.ts",
   "files": [
     "lib/**/*",
     "README.md"

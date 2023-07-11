@@ -5,7 +5,7 @@ import {
   DEFAULT_METADATA,
   ErrorWithMixedDefaults,
 } from "./example-errors";
-import BetterError from "../src";
+import { BetterError } from "../src";
 
 describe("Main functionality", () => {
   it("should throw an error with mixed defaults", () => {

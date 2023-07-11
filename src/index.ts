@@ -1,9 +1,9 @@
-import BetterError from "./core/BetterError.class";
+import "reflect-metadata";
 
-export default BetterError;
 export * from "./decorators";
 export {
   SupportedMetadata,
   Options,
   InferMetadata,
 } from "./types";
+export { BetterError } from "./core/BetterError.class";

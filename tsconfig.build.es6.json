@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "ESNext",
+    "module": "ESNext",
     "lib": ["ESNext"],
-    "module": "ES6",
-    "moduleResolution": "Node",
+    "moduleResolution": "NodeNext",
     "outDir": "./lib/es6",
     "strict": true,
     "experimentalDecorators": true,

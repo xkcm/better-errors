@@ -1,7 +1,8 @@
 import { cloneClass } from "../utils/clone.utils";
 import { resolveGetter } from "../utils/getter.utils";
-import { defineMetadata, getMetadata } from "../utils/metadata.utils";
 import * as objectUtils from "../utils/object.utils";
+
+import { withCode, withMessage, withMetadata } from "../decorators";
 
 import type {
   InferMetadata,
@@ -11,7 +12,7 @@ import type {
 } from "../types";
 import type { Getter } from "../utils/types.utils.ts";
 
-export default class BetterError<
+export class BetterError<
   Metadata extends SupportedMetadata = SupportedMetadata,
 > extends Error {
   public static withMetadata<
@@ -22,22 +23,21 @@ export default class BetterError<
     metadata: Getter<ErrorClassMetadata>,
     mergingBehavior: MergingBehavior = "submissive",
   ) {
-    const newClass = cloneClass(this);
-    defineMetadata("defaults:metadata", metadata, newClass.prototype);
-    defineMetadata("defaults:metadata", mergingBehavior, newClass.prototype, "mergingBehavior");
-    return newClass;
+    const clonedClass = cloneClass(this);
+    withMetadata(metadata, mergingBehavior)(clonedClass);
+    return clonedClass;
   }
 
   public static withMessage(message: Getter<string>) {
-    const newClass = cloneClass(this);
-    defineMetadata("defaults:message", message, newClass.prototype);
-    return newClass;
+    const clonedClass = cloneClass(this);
+    withMessage(message)(clonedClass);
+    return clonedClass;
   }
 
   public static withCode(code: Getter<string>) {
-    const newClass = cloneClass(this);
-    defineMetadata("defaults:code", code, newClass.prototype);
-    return newClass;
+    const clonedClass = cloneClass(this);
+    withCode(code)(clonedClass);
+    return clonedClass;
   }
 
   public code: string;
@@ -51,10 +51,10 @@ export default class BetterError<
 
     this.metadata = this.resolveMetadata(options?.metadata);
     this.code = options?.code ?? resolveGetter(
-      getMetadata<Getter<string>>("defaults:code", this),
+      Reflect.getMetadata("defaults:code", this) as Getter<string>,
     );
     this.message = options?.message ?? resolveGetter(
-      getMetadata<Getter<string>>("defaults:message", this),
+      Reflect.getMetadata("defaults:message", this) as Getter<string>,
     );
     this.cause = options?.cause;
 
@@ -62,8 +62,8 @@ export default class BetterError<
   }
 
   private resolveMetadata(constructorMetadata?: Metadata): Metadata {
-    const defaultMetadata = resolveGetter(getMetadata<Getter<Metadata>>("defaults:metadata", this));
-    const mergingBehavior = getMetadata<MergingBehavior>("defaults:metadata", this, "mergingBehavior");
+    const defaultMetadata = resolveGetter(Reflect.getMetadata("defaults:metadata", this) as Getter<Metadata>);
+    const mergingBehavior = Reflect.getMetadata("defaults:metadata", this, "mergingBehavior") as MergingBehavior;
 
     switch (mergingBehavior) {
       case "firm":
