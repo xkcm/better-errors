@@ -24,6 +24,8 @@ npm add @xkcm/better-errors
 This example contains a simple error class extending from `BetterError` class with a default error code.
 
 ```ts
+import { BetterError, withCode } from "@xkcm/better-errors";
+
 @withCode("unknown_error")
 class UnknownError extends BetterError {}
 
@@ -41,6 +43,8 @@ For details on `BetterError` constructor see the [Reference](#reference) section
 This example contains setting default value using a static method from the error class.
 
 ```ts
+import { BetterError } from "@xkcm/better-errors";
+
 class NotFoundError extends BetterError {}
 
 const NotFoundErrorWithMessage = NotFoundError.withMessage("File was not found!");
@@ -55,6 +59,8 @@ throw new NotFoundErrorWithMessage();
 This example contains a scenario in which an error with default values and some user data is thrown.
 
 ```ts
+import { BetterError, withMessage, withCode } from "@xkcm/better-errors";
+
 @withCode("auth.user_does_not_exist")
 @withMessage("User does not exist!")
 class UserDoesNotExistError extends BetterError<{ userId: string }> {}
@@ -83,6 +89,8 @@ For details on type-safety and decorators see the [Reference](#reference) sectio
 
 Advanced example with a message template, a getter function for metadata and a specified metadata merging behavior.
 ```ts
+import { BetterError, withMetadata, withMessage } from "@xkcm/better-errors";
+
 @withMessage("User with id=%{metadata.id} not found (occurred at %{metadata.timestamp})")
 @withMetadata(
   () => ({
@@ -110,6 +118,8 @@ You can use templates for the error messages. To inject a value to the message u
 
 Example:
 ```ts
+import { BetterError } from "@xkcm/better-errors";
+
 throw new BetterError({
   metadata: { userId: 42 },
   code: "user_does_not_exist",
@@ -145,6 +155,8 @@ Message template has access to `metadata`, `cause` & `code` properties.
 `Metadata` type comes from the optional generic type. It must extend `Record<string, any>`. This way it's possible to set custom metadata interface and get full IDE autocomplete support.  This type is then used in `.withMetadata` static method and `@withMetadata` decorator.
 
 ```ts
+import { BetterError, withMetadata } from "@xkcm/better-errors";
+
 @withMetadata(metadata: A) // TypeScript enforces type A here
 class ErrorWithMetadata extends BetterError<A> {}
 ```
@@ -156,6 +168,8 @@ Decorators and static methods accept both direct values and getter functions whi
 Example usage of getter function for metadata and message:
 
 ```ts
+import { BetterError, withMessage, withMetadata } from "@xkcm/better-errors";
+
 @withMetadata(() => ({
   timestamp: Date.now(),
 }))
@@ -165,6 +179,8 @@ class ErrorWithTimestamp extends BetterError<{ timestamp: number }> {}
 
 #### `withMessage`
 ```ts
+import { BetterError, withMessage } from "@xkcm/better-errors";
+
 // As a decorator
 @withMessage(message: string)
 class CustomError extends BetterError {}
@@ -175,6 +191,8 @@ CustomError.withMessage(message: string)
 
 #### `withCode`
 ```ts
+import { BetterError, withCode } from "@xkcm/better-errors";
+
 // As a decorator
 @withCode(code: string)
 class CustomError extends BetterError {}
@@ -185,6 +203,8 @@ CustomError.withCode(code: string)
 
 #### `withMetadata`
 ```ts
+import { BetterError, withMetadata } from "@xkcm/better-errors";
+
 // As a decorator
 @withMetadata(metadata: Metadata)
 class CustomError extends BetterError<Metadata> {}
@@ -204,4 +224,9 @@ Default metadata (from decorator/static method) and metadata from constructor ca
 * `compromise:firm` - default metadata and the metadata from constructor are recursively merged, if a conflict of object keys occurs then the value from the default metadata takes precedence, arrays get concatenated and objects are merged recursively
 * `compromise:submissive` - default metadata and the metadata from constructor are recursively merged, if a conflict of object keys occurs then the value from the metadata from constructor takes precedence, arrays get concatenated and objects are merged recursively
 
-The default merging behavior is `submissive`.
+The default merging behavior is `submissive`. Library exposes `setDefaultMergingBehavior` function which allows to change the default merging behavior.
+```ts
+import { setDefaultMergingBehavior } from "@xkcm/better-errors";
+
+setDefaultMergingBehavior("firm");
+```
