@@ -22,7 +22,7 @@ export class BetterError<
   >(
     this: typeof BetterError<ErrorClassMetadata> & { new (...args: any[]): ErrorClass },
     metadata: Getter<ErrorClassMetadata>,
-    mergingBehavior: MergingBehavior = getDefaultMergingBehavior(),
+    mergingBehavior?: MergingBehavior,
   ) {
     const clonedClass = cloneClass(this);
     withMetadata(metadata, mergingBehavior)(clonedClass);
@@ -64,7 +64,7 @@ export class BetterError<
 
   private resolveMetadata(constructorMetadata?: Metadata): Metadata {
     const defaultMetadata = resolveGetter(Reflect.getMetadata("defaults:metadata", this) as Getter<Metadata>);
-    const mergingBehavior = Reflect.getMetadata("defaults:metadata", this, "mergingBehavior") as MergingBehavior;
+    const mergingBehavior = Reflect.getMetadata("defaults:metadata", this, "mergingBehavior") as MergingBehavior || getDefaultMergingBehavior();
 
     switch (mergingBehavior) {
       case "firm":
