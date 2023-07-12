@@ -114,20 +114,18 @@ describe("Merging metadata behavior", () => {
     const defaultMetadata = { test: true };
     const metadata = { newTest: false };
 
-    const NewError1 = BetterError.withMetadata(defaultMetadata);
-    const error1 = new NewError1({ metadata });
+    const NewError = BetterError.withMetadata(defaultMetadata);
+    const error1 = new NewError({ metadata });
 
     expect(error1.metadata).toStrictEqual(metadata);
 
     setDefaultMergingBehavior("firm");
-    const NewError2 = BetterError.withMetadata(defaultMetadata);
-    const error2 = new NewError2({ metadata });
+    const error2 = new NewError({ metadata });
 
     expect(error2.metadata).toStrictEqual(defaultMetadata);
 
     setDefaultMergingBehavior("compromise:firm");
-    const NewError3 = BetterError.withMetadata(defaultMetadata);
-    const error3 = new NewError3({ metadata });
+    const error3 = new NewError({ metadata });
 
     expect(error3.metadata).toStrictEqual({
       test: true,
