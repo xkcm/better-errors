@@ -1,4 +1,4 @@
-import { BetterError } from "./core/BetterError.class";
+import type { BetterError } from "./core/BetterError.class";
 
 export type SupportedMetadata = Record<string, any>;
 export interface Options<Metadata> {

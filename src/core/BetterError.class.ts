@@ -3,6 +3,7 @@ import { resolveGetter } from "../utils/getter.utils";
 import * as objectUtils from "../utils/object.utils";
 
 import { withCode, withMessage, withMetadata } from "../decorators";
+import { getDefaultMergingBehavior } from "./default-merging-behavior";
 
 import type {
   InferMetadata,
@@ -21,7 +22,7 @@ export class BetterError<
   >(
     this: typeof BetterError<ErrorClassMetadata> & { new (...args: any[]): ErrorClass },
     metadata: Getter<ErrorClassMetadata>,
-    mergingBehavior: MergingBehavior = "submissive",
+    mergingBehavior: MergingBehavior = getDefaultMergingBehavior(),
   ) {
     const clonedClass = cloneClass(this);
     withMetadata(metadata, mergingBehavior)(clonedClass);

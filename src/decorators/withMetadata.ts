@@ -1,4 +1,5 @@
 import type { BetterError } from "../core/BetterError.class";
+import { getDefaultMergingBehavior } from "../core/default-merging-behavior";
 import type { InferMetadata, MergingBehavior } from "../types";
 import type { Getter } from "../utils/types.utils.ts";
 
@@ -8,7 +9,7 @@ export default function withMetadata<
   T extends ErrorClassMetadata,
 >(
   defaultMetadata: Getter<T>,
-  mergingBehavior: MergingBehavior = "submissive",
+  mergingBehavior: MergingBehavior = getDefaultMergingBehavior(),
 ) {
   return (
     target: { new (...args: any[]): ErrorClass },

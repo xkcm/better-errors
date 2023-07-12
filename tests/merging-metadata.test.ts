@@ -1,5 +1,9 @@
-import { describe, expect, it } from "vitest";
-import { BetterError } from "../src";
+import {
+  describe,
+  expect,
+  it,
+} from "vitest";
+import { BetterError, setDefaultMergingBehavior } from "../src";
 
 describe("Merging metadata behavior", () => {
   it("should merge metadata using 'firm' behavior", () => {
@@ -104,5 +108,33 @@ describe("Merging metadata behavior", () => {
         F: 94,
       },
     });
+  });
+
+  it("should set new default merging behavior", () => {
+    const defaultMetadata = { test: true };
+    const metadata = { newTest: false };
+
+    const NewError1 = BetterError.withMetadata(defaultMetadata);
+    const error1 = new NewError1({ metadata });
+
+    expect(error1.metadata).toStrictEqual(metadata);
+
+    setDefaultMergingBehavior("firm");
+    const NewError2 = BetterError.withMetadata(defaultMetadata);
+    const error2 = new NewError2({ metadata });
+
+    expect(error2.metadata).toStrictEqual(defaultMetadata);
+
+    setDefaultMergingBehavior("compromise:firm");
+    const NewError3 = BetterError.withMetadata(defaultMetadata);
+    const error3 = new NewError3({ metadata });
+
+    expect(error3.metadata).toStrictEqual({
+      test: true,
+      newTest: false,
+    });
+
+    // clean-up
+    setDefaultMergingBehavior("submissive");
   });
 });
