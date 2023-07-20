@@ -63,4 +63,10 @@ describe("Main functionality", () => {
     expect(error.metadata).toStrictEqual({ timestamp, userId: metadata.userId });
     expect(error.message).toStrictEqual(expectedMessage);
   });
+
+  it("should throw plain BetterError", () => {
+    expect(() => {
+      throw new BetterError();
+    }).toThrowError("Unknown error");
+  });
 });

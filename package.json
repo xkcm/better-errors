@@ -1,6 +1,6 @@
 {
   "name": "@xkcm/better-errors",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Better errors with TypeScript",
   "author": "xkcm",
   "license": "ISC",
@@ -20,7 +20,8 @@
   "scripts": {
     "test": "vitest",
     "lint": "eslint ./src ./tests --ext .ts",
-    "build": "rm -rf ./lib && tsc -p tsconfig.build.es6.json && tsc -p tsconfig.build.es5.json"
+    "build": "rm -rf ./lib && tsc -p tsconfig.build.es6.json && tsc -p tsconfig.build.es5.json",
+    "prepublish": "pnpm build"
   },
   "keywords": [
     "error",
@@ -42,5 +43,8 @@
   },
   "dependencies": {
     "reflect-metadata": "^0.1.13"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

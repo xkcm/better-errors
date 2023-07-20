@@ -51,11 +51,19 @@ export class BetterError<
     super();
 
     this.metadata = this.resolveMetadata(options?.metadata);
-    this.code = options?.code ?? resolveGetter(
-      Reflect.getMetadata("defaults:code", this) as Getter<string>,
+    this.code = (
+      options?.code
+        ?? resolveGetter(
+          Reflect.getMetadata("defaults:code", this) as Getter<string>,
+        )
+        ?? "better_error.unknown_error"
     );
-    this.message = options?.message ?? resolveGetter(
-      Reflect.getMetadata("defaults:message", this) as Getter<string>,
+    this.message = (
+      options?.message
+        ?? resolveGetter(
+          Reflect.getMetadata("defaults:message", this) as Getter<string>,
+        )
+        ?? "Unknown error"
     );
     this.cause = options?.cause;
 
@@ -70,9 +78,9 @@ export class BetterError<
       case "firm":
         return defaultMetadata ?? constructorMetadata;
       case "compromise:firm":
-        return objectUtils.mergeRecursively(constructorMetadata ?? {}, defaultMetadata);
+        return objectUtils.mergeRecursively(constructorMetadata ?? {}, defaultMetadata ?? {});
       case "compromise:submissive":
-        return objectUtils.mergeRecursively(defaultMetadata, constructorMetadata ?? {});
+        return objectUtils.mergeRecursively(defaultMetadata ?? {}, constructorMetadata ?? {});
       case "submissive":
       default:
         return constructorMetadata ?? defaultMetadata;
