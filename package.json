@@ -1,11 +1,12 @@
 {
   "name": "@xkcm/better-errors",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "description": "Better errors with TypeScript",
   "author": "xkcm",
   "license": "ISC",
   "repository": {
-    "url": "https://github.com/xkcm/better-errors"
+    "type": "git",
+    "url": "https://github.com/xkcm/better-errors.git"
   },
   "bugs": {
     "url": "https://github.com/xkcm/better-errors/issues"
@@ -20,8 +21,7 @@
   "scripts": {
     "test": "vitest",
     "lint": "eslint ./src ./tests --ext .ts",
-    "build": "rm -rf ./lib && tsc -p tsconfig.build.es6.json && tsc -p tsconfig.build.es5.json",
-    "prepublish": "pnpm build"
+    "build": "rm -rf ./lib && tsc -p tsconfig.build.es6.json && tsc -p tsconfig.build.es5.json"
   },
   "keywords": [
     "error",
