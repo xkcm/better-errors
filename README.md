@@ -230,3 +230,22 @@ import { setDefaultMergingBehavior } from "@xkcm/better-errors";
 
 setDefaultMergingBehavior("firm");
 ```
+
+### Utility functions
+
+#### `extractErrorDefaults`
+
+Returns default _metadata_, _message_, _code_ and _merging behavior_ from the error class or its instance, which were set by decorators or static class methods.
+
+Example usage:
+
+```ts
+@withMessage("Custom error occurred!")
+@withCode("custom_error")
+class CustomError extends BetterError {}
+
+const defaultsFromClass = extractErrorDefaults(CustomError);
+const defaultsFromInstance = extractErrorDefaults(new CustomError());
+
+console.log("Default code:", defaultsFromClass.code);
+```
