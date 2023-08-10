@@ -7,4 +7,4 @@ export {
   InferMetadata,
 } from "./types";
 export { setDefaultMergingBehavior } from "./core/default-merging-behavior";
-export { BetterError } from "./core/BetterError.class";
+export { BetterError, extractErrorDefaults } from "./core/BetterError.class";
