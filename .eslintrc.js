@@ -20,6 +20,7 @@ module.exports = {
     indent: "off",
     "no-console": ["error", { allow: ["info", "warn", "error"] }],
     "no-use-before-define": ["error", { functions: false, classes: false }],
+    "@typescript-eslint/no-use-before-define": ["error", { functions: false, classes: false }],
     "brace-style": ["error", "1tbs", { allowSingleLine: false }],
     "import/no-unresolved": 0,
     "import/prefer-default-export": 0,

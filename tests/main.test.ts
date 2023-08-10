@@ -5,7 +5,7 @@ import {
   DEFAULT_METADATA,
   ErrorWithMixedDefaults,
 } from "./example-errors";
-import { BetterError } from "../src";
+import { BetterError, extractErrorDefaults } from "../src";
 
 describe("Main functionality", () => {
   it("should throw an error with mixed defaults", () => {
@@ -68,5 +68,24 @@ describe("Main functionality", () => {
     expect(() => {
       throw new BetterError();
     }).toThrowError("Unknown error");
+  });
+
+  it("should use extractErrorDefaults correctly", () => {
+    const defaultCode = "test_code";
+    const defaultMessage = "This is a test message";
+    const defaultMetadata = { test: true };
+
+    const ErrorWithDefaults = (
+      BetterError
+        .withCode(defaultCode)
+        .withMessage(defaultMessage)
+        .withMetadata(defaultMetadata)
+    );
+
+    const extractedDefaults = extractErrorDefaults(ErrorWithDefaults);
+
+    expect(extractedDefaults.code).toEqual(defaultCode);
+    expect(extractedDefaults.message).toEqual(defaultMessage);
+    expect(extractedDefaults.metadata).toStrictEqual(defaultMetadata);
   });
 });
