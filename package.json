@@ -1,6 +1,6 @@
 {
   "name": "@xkcm/better-errors",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Better errors with TypeScript",
   "author": "xkcm",
   "license": "ISC",
