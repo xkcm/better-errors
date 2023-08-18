@@ -100,9 +100,7 @@ export class BetterError<
 
   public metadata: Metadata;
 
-  public constructor(
-    options?: Options<Metadata>,
-  ) {
+  public constructor(options: Options<Metadata> = {}) {
     super();
 
     const {

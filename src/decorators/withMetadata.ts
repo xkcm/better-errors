@@ -7,7 +7,7 @@ export default function withMetadata<
   ErrorClassMetadata extends InferMetadata<ErrorClass>,
   T extends ErrorClassMetadata,
 >(
-  defaultMetadata: Getter<T>,
+  defaultMetadata: Getter<Partial<T>>,
   mergingBehavior?: MergingBehavior,
 ) {
   return (
