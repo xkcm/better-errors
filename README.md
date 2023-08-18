@@ -1,9 +1,6 @@
-# Better Errors
-A library for expanded error functionality in JavaScript.
-
 ## Overview
 
-Better Errors library provides a `BetterError` class extended from the standard `Error` class. It expands the standard error with **code** and **metadata** properties. The library also contains a couple of utility functions & decorators to define default values to minimize repeated code.
+Better Errors library provides a `BetterError` class based on the standard `Error` class. It extends the standard error with **code** and **metadata** properties. The library also contains a couple of utility functions & decorators to define default values to minimize repeated code and simplify writing custom errors.
 
 ## Installation
 
@@ -139,7 +136,7 @@ Message template has access to `metadata`, `cause` & `code` properties.
 
 ## Reference
 
-#### `BetterError` class
+### `BetterError` class
 
 `BetterError` constructor accepts just one optional object argument with `cause`, `message`, `cause` & `metadata` fields.
 
@@ -247,5 +244,5 @@ class CustomError extends BetterError {}
 const defaultsFromClass = extractErrorDefaults(CustomError);
 const defaultsFromInstance = extractErrorDefaults(new CustomError());
 
-console.log("Default code:", defaultsFromClass.code);
+console.log("Default code:", defaultsFromClass.code); // logs: Default code: custom_error
 ```

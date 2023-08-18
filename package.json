@@ -11,17 +11,24 @@
   "bugs": {
     "url": "https://github.com/xkcm/better-errors/issues"
   },
-  "main": "lib/es5/index.js",
+  "main": "lib/cjs/index.js",
   "module": "lib/es6/index.js",
   "types": "lib/es6/index.d.ts",
   "files": [
     "lib/**/*",
     "README.md"
   ],
+  "exports": {
+    ".": {
+      "import": "./lib/es6/index.js",
+      "require": "./lib/cjs/index.js",
+      "types": "./lib/types/index.d.ts"
+    }
+  },
   "scripts": {
     "test": "vitest",
     "lint": "eslint ./src ./tests --ext .ts",
-    "build": "rm -rf ./lib && tsc -p tsconfig.build.es6.json && tsc -p tsconfig.build.es5.json"
+    "build": "rm -rf ./lib && tsc -p tsconfig.build.es6.json && tsc -p tsconfig.build.cjs.json && tsc -p tsconfig.build.types.json"
   },
   "keywords": [
     "error",
