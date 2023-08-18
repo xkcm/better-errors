@@ -27,3 +27,8 @@ export class ErrorWithDefaultMessage extends BetterError<typeof DEFAULT_METADATA
 export class ErrorWithMixedDefaults extends ErrorWithDefaultMessage {}
 
 export class GenericError extends BetterError<typeof DEFAULT_METADATA> {}
+
+export class TError extends BetterError<{
+  userId?: number;
+  userName: string
+}> {}
