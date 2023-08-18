@@ -1,9 +1,11 @@
-name: Deploy to NPM
+name: Verify Pull Request
 on:
-  release:
-    types: [published]
+  pull_request:
+    types: [opened, synchronize]
+    branches: [main]
 jobs:
-  deploy:
+  lint-and-test:
+    name: Lint and Test
     permissions:
       id-token: write
       contents: read
@@ -21,8 +23,3 @@ jobs:
       - run: pnpm install
       - run: pnpm lint
       - run: pnpm test
-      - run: pnpm build
-      - run: pnpm publish --access public --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_CONFIG_PROVENANCE: true
